@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.samos.pizza.presentation.navigation.MainNavHost
 import org.jetbrains.compose.resources.painterResource
 
 import pizza.shared.generated.resources.Res
@@ -21,9 +22,10 @@ import pizza.shared.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
-fun App() {
+fun ComposeApp() {
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
+        MainNavHost()
+        /*var showContent by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -44,6 +46,6 @@ fun App() {
                     Text("Compose: $greeting")
                 }
             }
-        }
+        }*/
     }
 }
