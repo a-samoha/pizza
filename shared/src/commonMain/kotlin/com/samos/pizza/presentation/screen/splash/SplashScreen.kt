@@ -20,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import pizza.shared.generated.resources.Res
+import pizza.shared.generated.resources.img_pizza_frame_0
 import pizza.shared.generated.resources.img_pizza_frame_1
 import pizza.shared.generated.resources.img_pizza_frame_2
 import pizza.shared.generated.resources.img_pizza_frame_3
@@ -31,8 +33,11 @@ import pizza.shared.generated.resources.img_pizza_frame_7
 import pizza.shared.generated.resources.img_pizza_frame_8
 
 @Composable
-fun SplashScreen() {
-    // Tracks how many slices of pizza are currently unlocked (-1 to 7)
+fun SplashScreen(
+    viewModel: SplashViewModel = koinViewModel(),
+) {
+
+    // Tracks how many slices of pizza are currently unlocked (-1 to 8)
     var visibleFramesCount by remember { mutableStateOf(-1) }
 
     // Tracks whether the animation is currently building up (true) or fading away (false)
@@ -41,6 +46,7 @@ fun SplashScreen() {
     // Static array reference storing our ordered image resources
     val pizzaFrames = remember {
         listOf(
+            Res.drawable.img_pizza_frame_0,
             Res.drawable.img_pizza_frame_1,
             Res.drawable.img_pizza_frame_2,
             Res.drawable.img_pizza_frame_3,
