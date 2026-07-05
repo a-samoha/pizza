@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samos.pizza.presentation.base.TransparentSystemBarsEffect
 import com.samos.pizza.presentation.screen.home.component.BananaSizeSelector
+import com.samos.pizza.presentation.screen.home.component.CAROUSEL_HEIGHT_DP
 import com.samos.pizza.presentation.screen.home.component.HomeTopAppBar
 import com.samos.pizza.presentation.screen.home.component.PizzaOrderBottomBar
 import com.samos.pizza.presentation.screen.home.component.PizzasCarousel
@@ -128,69 +129,6 @@ fun HomeScreenContent(
                 },
                 containerColor = Color.Transparent,
             ) { innerPadding ->
-                /*Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    PizzasCarousel(
-                        state = state,
-                        animationProgress = animationProgress,
-                        handleIntent = handleIntent,
-                    )
-                    BananaSizeSelector(
-                        size = state.selectedSize,
-                        modifier = Modifier,
-                        onSizeChanged = {},
-                    )
-                    // 2. Animated Content Block managing text description fading state responses
-                    AnimatedContent(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 32.dp, top = 40.dp, end = 32.dp),
-                        targetState = currentPizza.description,
-                        transitionSpec = {
-                            fadeIn(animationSpec = tween(durationMillis = 400)) togetherWith
-                                    fadeOut(animationSpec = tween(durationMillis = 300))
-                        },
-                        label = "PizzaDescriptionTransition",
-                    ) { targetDescription ->
-                        Text(
-                            text = targetDescription,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontSize = 15.sp,
-                            lineHeight = 24.sp,
-                            color = Color.DarkGray,
-                            textAlign = TextAlign.Start
-                        )
-                    }
-                    PizzaOrderBottomBar(
-                        amount = state.amount,
-                        singlePrice = currentPizza.variants[0].price,
-                        modifier = Modifier
-                            //  Applies fluid translation and fade-in synchronization bound to animationProgress parameters
-                            .graphicsLayer {
-                                // Maximum downward distance offset pixel rate for the hidden out-of-screen start position
-                                val maxSlideDistancePx = 500f
-
-                                // When animationProgress is 1f (initial) -> translationY = 500px (completely hidden underneath the screen viewport)
-                                // When animationProgress is 0f (resting) -> translationY = 0px (perfectly positioned in place)
-                                translationY = maxSlideDistancePx * animationProgress
-
-                                // Converts linear progress (1f to 0f) to linear visibility (0f to 1f)
-                                val linearVisibility = 1f - animationProgress
-
-                                // Uses custom easing curve coordinates to hold off the opacity layer reveal process
-                                // Prevents the bottom bar elements from blinking into existence prematurely while the full oval handles transitions
-                                val delayedEasing = CubicBezierEasing(0.6f, 0.0f, 1.0f, 1.0f)
-                                alpha = delayedEasing.transform(linearVisibility)
-                            },
-                        onMinusClick = {},
-                        onPlusClick = {},
-                        onAddClick = {},
-                    )
-                }*/
                 BoxWithConstraints(
                     modifier = Modifier
                         .fillMaxSize()
@@ -205,7 +143,7 @@ fun HomeScreenContent(
                             .align(Alignment.TopCenter),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        // Allocates roughly 38-40% of the viewport height strictly to the carousel frame to avoid vertical squeezing
+                        // Allocates roughly 50% of the viewport height strictly to the carousel frame to avoid vertical squeezing
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -214,28 +152,17 @@ fun HomeScreenContent(
                         ) {
                             PizzasCarousel(
                                 state = state,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(CAROUSEL_HEIGHT_DP.dp),
                                 animationProgress = animationProgress,
                                 handleIntent = handleIntent,
                             )
                         }
-
-                        // Dedicated slot zone for the custom size picker controller component
-                        /*Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(availableHeight * 0.12f)
-                                // Synchronized slide-up and premium delayed fade-in effects matching the top bar setup
-                                .graphicsLayer {
-                                    translationY = 150f * animationProgress
-                                    val delayedEasing = CubicBezierEasing(0.7f, 0.0f, 1.0f, 1.0f)
-                                    alpha = delayedEasing.transform(1f - animationProgress)
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {}*/
                     }
 
                     BananaSizeSelector(
-                        size = state.selectedSize,
+                        size = state.currentSize,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 148.dp)
@@ -245,7 +172,7 @@ fun HomeScreenContent(
                                 val delayedEasing = CubicBezierEasing(0.7f, 0.0f, 1.0f, 1.0f)
                                 alpha = delayedEasing.transform(1f - animationProgress)
                             },
-                        onSizeChanged = {},
+                        onSizeChanged = { handleIntent(HomeIntent.OnSizeChanged(it)) },
                     )
 
                     Column(
@@ -280,7 +207,8 @@ fun HomeScreenContent(
 
                         PizzaOrderBottomBar(
                             amount = state.amount,
-                            singlePrice = currentPizza.variants[0].price,
+                            singlePrice = currentPizza.variants
+                                .find { it.size == state.currentSize }?.price ?: 0.00,
                             modifier = Modifier
                                 .navigationBarsPadding()
                                 .padding(16.dp)
@@ -291,8 +219,8 @@ fun HomeScreenContent(
                                     val delayedEasing = CubicBezierEasing(0.6f, 0.0f, 1.0f, 1.0f)
                                     alpha = delayedEasing.transform(linearVisibility)
                                 },
-                            onMinusClick = {},
-                            onPlusClick = {},
+                            onMinusClick = { handleIntent(HomeIntent.OnAmountChanged(isIncremented = false)) },
+                            onPlusClick = { handleIntent(HomeIntent.OnAmountChanged(isIncremented = true)) },
                             onAddClick = {},
                         )
                     }
