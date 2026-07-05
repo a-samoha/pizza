@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetPizzasUseCase {
 
-    operator fun invoke(fetchFromBe: Boolean = true): Flow<List<PizzaModel>>
+    operator fun invoke(fetchFromBe: Boolean = true): Flow<List<PizzaModel>?>
 }

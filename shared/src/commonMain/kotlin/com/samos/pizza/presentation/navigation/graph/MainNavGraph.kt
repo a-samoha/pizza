@@ -3,6 +3,7 @@ package com.samos.pizza.presentation.navigation.graph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.samos.pizza.presentation.navigation.routes.NavigationRoute
+import com.samos.pizza.presentation.screen.home.HomeScreen
 import com.samos.pizza.presentation.screen.splash.SplashScreen
 
 fun NavGraphBuilder.mainNavGraph() {
@@ -11,7 +12,7 @@ fun NavGraphBuilder.mainNavGraph() {
     }
 
     composable<NavigationRoute.HomeRoute> {
-        //HomeScreen()
+        HomeScreen()
     }
 
     composable<NavigationRoute.SettingsRoute> {

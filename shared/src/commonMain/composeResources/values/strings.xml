@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">Add</string>
+
+    <!-- Screen layout text labels configuration strings -->
+    <string name="top_bar_category_title">Pizzas</string>
+    <string name="bottom_bar_add_action">Add</string>
+
+    <!-- Dynamic placeholders support strings formatting -->
+    <string name="carousel_item_description">Delicious %1${s} pizza entry</string>
+</resources>

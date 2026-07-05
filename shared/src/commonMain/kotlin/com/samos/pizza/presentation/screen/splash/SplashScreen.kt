@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.samos.pizza.presentation.screen.splash.viewmodel.SplashIntent
+import com.samos.pizza.presentation.screen.splash.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -79,6 +81,7 @@ fun SplashScreen(
                 // Pause briefly once the screen is completely cleared
                 delay(300)
                 isBuildingUp = true
+                viewModel.handleIntent(SplashIntent.OnMinAnimSown)
             }
         }
     }

@@ -6,7 +6,8 @@ import com.samos.pizza.data.usecase.GetPizzasUseCaseImpl
 import com.samos.pizza.domain.usecase.GetPizzasUseCase
 import com.samos.pizza.presentation.navigation.router.ComposeRouter
 import com.samos.pizza.presentation.navigation.router.ComposeRouterImpl
-import com.samos.pizza.presentation.screen.splash.SplashViewModel
+import com.samos.pizza.presentation.screen.home.viewmodel.HomeScreenViewModel
+import com.samos.pizza.presentation.screen.splash.viewmodel.SplashViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -23,4 +24,5 @@ val sharedModule = module {
     factoryOf(::GetPizzasUseCaseImpl) bind GetPizzasUseCase::class
 
     viewModelOf(::SplashViewModel)
+    viewModelOf(::HomeScreenViewModel)
 }
