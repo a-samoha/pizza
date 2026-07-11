@@ -20,9 +20,10 @@ koin = "4.2.2"
 navigationCompose = "2.9.2"
 devtoolsksp = "2.3.5"
 ktorfit = "2.7.5"
-ktorClientCore = "3.5.0"
+ktorClientCore = "3.5.1"
 ktorClientDarwin = "3.5.1"
 ktorClientLogging = "3.5.1"
+navigationeventCompose = "1.1.0"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -63,6 +64,8 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilCompose" }
 
+navigationevent-compose = { module = "org.jetbrains.androidx.navigationevent:navigationevent-compose", version.ref = "navigationeventCompose" }
+
 # Test
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -77,5 +80,5 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMul
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsksp" } # (KSP) Kotlin Symbol Processing
-de-jensklingenberg-ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" } # (KSP) Kotlin Symbol Processing
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsksp" } # (KSP) Kotlin Symbol Processing (instead KAPT - Kotlin Annotation Processing Tool)
+de-jensklingenberg-ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }

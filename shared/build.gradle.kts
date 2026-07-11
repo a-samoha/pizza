@@ -66,6 +66,7 @@ kotlin {
 
             implementation(libs.kotlinx.serialization.json) // Type-safe navigation
 
+            // --- Ktorfit (instead Retrofir)
             implementation(libs.ktorfit.lib)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
@@ -74,6 +75,8 @@ kotlin {
 
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+
+            implementation(libs.navigationevent.compose)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
