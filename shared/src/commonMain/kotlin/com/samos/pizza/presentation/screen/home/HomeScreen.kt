@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samos.pizza.presentation.base.TransparentSystemBarsEffect
 import com.samos.pizza.presentation.screen.home.component.BananaSizeSelector
-import com.samos.pizza.presentation.screen.home.component.CAROUSEL_HEIGHT_DP
+import com.samos.pizza.presentation.screen.home.component.FullScreenZoom
 import com.samos.pizza.presentation.screen.home.component.HomeTopAppBar
 import com.samos.pizza.presentation.screen.home.component.PizzaOrderBottomBar
 import com.samos.pizza.presentation.screen.home.component.PizzasCarousel
@@ -77,6 +77,11 @@ fun HomeScreenContent(
     TransparentSystemBarsEffect()
 
     var isAnimated by remember { mutableStateOf(false) }
+
+    var isZoom by remember { mutableStateOf(false) }
+    var startZoomPixelY by remember { mutableStateOf(0f) }
+    var startZoomScale by remember { mutableStateOf(0f) }
+    var startZoomAlpha by remember { mutableStateOf(0f) }
 
     // Interpolates background state layout progression
     val animationProgress by animateFloatAsState(
@@ -136,30 +141,20 @@ fun HomeScreenContent(
                 ) {
                     val availableHeight = maxHeight
 
-                    // 1. Scalable Upper/Middle Content Flow Layout Container
-                    Column(
+                    PizzasCarousel(
+                        state = state,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .align(Alignment.TopCenter),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // Allocates roughly 50% of the viewport height strictly to the carousel frame to avoid vertical squeezing
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(availableHeight * 0.5f),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            PizzasCarousel(
-                                state = state,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(CAROUSEL_HEIGHT_DP.dp),
-                                animationProgress = animationProgress,
-                                handleIntent = handleIntent,
-                            )
+                            .height(availableHeight * 0.5f),
+                        animationProgress = animationProgress,
+                        handleIntent = handleIntent,
+                        onZoomClick = { computedPixel, computedScale, computedAlpha ->
+                            startZoomPixelY = computedPixel
+                            startZoomScale = computedScale
+                            startZoomAlpha = computedAlpha
+                            isZoom = true
                         }
-                    }
+                    )
 
                     BananaSizeSelector(
                         size = state.currentSize,
@@ -225,6 +220,17 @@ fun HomeScreenContent(
                         )
                     }
                 }
+            }
+
+            if (isZoom) {
+                FullScreenZoom(
+                    currentPizzaUrl = currentPizza.imageUrl,
+                    startZoomScale = startZoomScale,
+                    startZoomAlpha = startZoomAlpha,
+                    startZoomPixelY = startZoomPixelY,
+                    onUnZoom = { isZoom = false },
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }
