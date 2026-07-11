@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.samos.pizza.presentation.screen.splash.viewmodel.SplashIntent
+import com.samos.pizza.presentation.screen.splash.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -31,6 +33,7 @@ import pizza.shared.generated.resources.img_pizza_frame_5
 import pizza.shared.generated.resources.img_pizza_frame_6
 import pizza.shared.generated.resources.img_pizza_frame_7
 import pizza.shared.generated.resources.img_pizza_frame_8
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun SplashScreen(
@@ -65,20 +68,21 @@ fun SplashScreen(
                 // Progressively reveal slices one by one
                 for (i in pizzaFrames.indices) {
                     visibleFramesCount = i
-                    delay(60)
+                    delay(60.milliseconds)
                 }
                 // Pause briefly once the full pizza is assembled
-                delay(200)
+                delay(200.milliseconds)
                 isBuildingUp = false
             } else {
                 // Progressively fade out slices one by one in reverse order
                 for (i in pizzaFrames.indices.reversed()) {
                     visibleFramesCount = i - 1
-                    delay(60)
+                    delay(60.milliseconds)
                 }
                 // Pause briefly once the screen is completely cleared
-                delay(300)
+                delay(300.milliseconds)
                 isBuildingUp = true
+                viewModel.handleIntent(SplashIntent.OnMinAnimSown)
             }
         }
     }

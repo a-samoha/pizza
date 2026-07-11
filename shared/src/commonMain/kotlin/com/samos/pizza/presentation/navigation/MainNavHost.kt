@@ -105,7 +105,7 @@ fun MainNavHost(
         },
         exitTransition = {
             fadeOut(
-                animationSpec = tween(durationMillis = 300),
+                animationSpec = tween(durationMillis = 100),
             )
         },
         popEnterTransition = {
@@ -118,7 +118,7 @@ fun MainNavHost(
         },
         popExitTransition = {
             fadeOut(
-                animationSpec = tween(durationMillis = 300),
+                animationSpec = tween(durationMillis = 100),
             )
         },
         builder = { mainNavGraph() }

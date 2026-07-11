@@ -38,7 +38,7 @@ class PizzasResponse(
         val price: Double,
     ) {
         fun toDomain() = PizzaModel.VariantModel(
-            size = size,
+            size = PizzaModel.PizzaSize.from(size),
             price = price,
         )
     }

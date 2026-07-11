@@ -10,7 +10,15 @@ data class PizzaModel(
 ) {
 
     data class VariantModel(
-        val size: String,
+        val size: PizzaSize,
         val price: Double,
     )
+
+    enum class PizzaSize {
+        S, M, L;
+
+        companion object {
+            fun from(raw: String) = entries.find { it.name.equals(raw, ignoreCase = true) } ?: M
+        }
+    }
 }

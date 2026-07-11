@@ -9,5 +9,5 @@ class GetPizzasUseCaseImpl(
     private val repo: PizzasRepository,
 ) : GetPizzasUseCase {
 
-    override fun invoke(fetchFromBe: Boolean): Flow<List<PizzaModel>> = repo.getPizzas(fetchFromBe)
+    override fun invoke(fetchFromBe: Boolean): Flow<List<PizzaModel>?> = repo.getPizzas(fetchFromBe)
 }
