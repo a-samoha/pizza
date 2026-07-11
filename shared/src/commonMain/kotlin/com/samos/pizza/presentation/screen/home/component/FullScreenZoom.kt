@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,39 +44,50 @@ fun FullScreenZoom(
     onUnZoom: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val navigationEventState = rememberNavigationEventState(NavigationEventInfo.None) //
-
-    NavigationBackHandler(
-        state = navigationEventState,
-        isBackEnabled = true,
-        onBackCompleted = { onUnZoom() }
-    )
-
+    var isReturning by remember { mutableStateOf(false) }
     var isReadyToFly by remember { mutableStateOf(false) }
 
     val flightProgress by animateFloatAsState(
-        targetValue = if (isReadyToFly) 1f else 0f,
+        targetValue = if (isReadyToFly && !isReturning) 1f else 0f,
         animationSpec = tween(durationMillis = 350),
         label = "PizzaFlightTransition"
     )
 
-    var screenCenterY by remember { mutableFloatStateOf(0f) }
+    LaunchedEffect(flightProgress, isReturning) {
+        if (isReturning && flightProgress == 0f) {
+            onUnZoom()
+        }
+    }
 
+    val navigationEventState = rememberNavigationEventState(NavigationEventInfo.None)
+    NavigationBackHandler(
+        state = navigationEventState,
+        isBackEnabled = !isReturning,
+        onBackCompleted = { isReturning = true }
+    )
+
+    var screenCenterY by remember { mutableFloatStateOf(0f) }
     var gestureScale by remember { mutableFloatStateOf(1f) }
     var gestureOffset by remember { mutableStateOf(Offset.Zero) }
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.85f * flightProgress))
+            .background(Color.Black.copy(alpha = 0.8f * flightProgress))
             .onGloballyPositioned { coordinates ->
                 screenCenterY = coordinates.positionInWindow().y + (coordinates.size.height / 2f)
                 isReadyToFly = true
             }
-            .pointerInput(flightProgress) {
-                if (flightProgress < 1f) return@pointerInput
+            .pointerInput(flightProgress, isReturning) {
+                if (flightProgress < 1f || isReturning) return@pointerInput
                 detectTransformGestures { _, pan, zoom, _ ->
-                    gestureScale = (gestureScale * zoom).coerceIn(1f, 7f)
+                    val oldScale = gestureScale
+                    gestureScale = (gestureScale * zoom).coerceIn(0.28f, 7f)
+
+                    if (gestureScale < 0.3f && oldScale >= 0.3f) {
+                        isReturning = true
+                    }
+
                     if (gestureScale > 1f) {
                         gestureOffset += pan
                     } else {
@@ -86,7 +98,7 @@ fun FullScreenZoom(
         contentAlignment = Alignment.Center
     ) {
         val initialStartOffset = remember(startZoomPixelY, screenCenterY) {
-            if (screenCenterY == 0f) 0f else startZoomPixelY - (screenCenterY - (startZoomPixelY / 2f))
+            if (screenCenterY == 0f) 0f else startZoomPixelY + 20f - (screenCenterY - (startZoomPixelY / 2f))
         }
 
         val targetFullScreenScale = 4.8f
@@ -95,10 +107,12 @@ fun FullScreenZoom(
             if (screenCenterY == 0f) 0f
             else startZoomAlpha
 
+        val currentGestureScale = if (isReturning) 1f else gestureScale
+
         PizzaImageCore(
             imageUrl = currentPizzaUrl,
             contentDescription = "Animated Full Screen Zoom",
-            scale = (startZoomScale + 0.02f + (targetFullScreenScale - startZoomScale) * flightProgress) * gestureScale,
+            scale = (startZoomScale + (targetFullScreenScale - startZoomScale) * flightProgress) * currentGestureScale,
             alphaValue = finalAlpha,
             modifier = Modifier.graphicsLayer {
                 val flightY = initialStartOffset * (1f - flightProgress)
@@ -108,9 +122,9 @@ fun FullScreenZoom(
             }
         )
 
-        if (flightProgress > 0.5f) {
+        if (flightProgress > 0.5f && !isReturning) {
             IconButton(
-                onClick = onUnZoom,
+                onClick = { isReturning = true },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 48.dp, end = 24.dp)
