@@ -56,7 +56,7 @@ fun MainNavHost(
                         val prevRouteStr = navController.previousBackStackEntry?.destination?.route
                         implRouter?.setLastProcessedRouteStr(prevRouteStr)
 
-                        navController.navigateUp()
+                        navController.popBackStack()
                     }
 
                     is NavigationEffect.Navigate.Route -> {
@@ -96,30 +96,16 @@ fun MainNavHost(
         startDestination = NavigationRoute.SplashRoute,
         modifier = modifier,
         enterTransition = {
-            fadeIn(
-                animationSpec = tween(
-                    durationMillis = 300,
-                    delayMillis = 100
-                ),
-            )
+            fadeIn(animationSpec = tween(durationMillis = 200, delayMillis = 100))
         },
         exitTransition = {
-            fadeOut(
-                animationSpec = tween(durationMillis = 100),
-            )
+            fadeOut(animationSpec = tween(durationMillis = 100))
         },
         popEnterTransition = {
-            fadeIn(
-                animationSpec = tween(
-                    durationMillis = 300,
-                    delayMillis = 100
-                ),
-            )
+            fadeIn(animationSpec = tween(durationMillis = 200, delayMillis = 100))
         },
         popExitTransition = {
-            fadeOut(
-                animationSpec = tween(durationMillis = 100),
-            )
+            fadeOut(animationSpec = tween(durationMillis = 100))
         },
         builder = { mainNavGraph() }
     )

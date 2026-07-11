@@ -35,6 +35,6 @@ class SplashViewModel(
 
     private fun checkAndNavigate() {
         if (isMinAnimDone && isLoaded)
-            router.newRootScreen(NavigationRoute.HomeRoute)
+            router.replaceScreen(NavigationRoute.HomeRoute)
     }
 }
