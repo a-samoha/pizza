@@ -23,7 +23,9 @@ class HomeScreenViewModel(
             }.launchIn(viewModelScope)
     }
 
-    override fun handleIntent(intent: HomeIntent) =
+    override fun handleIntent(intent: HomeIntent) {
+        println("Test handleIntent $intent")
+
         when (intent) {
             HomeIntent.OnBackClick -> router.navigateBack()
             is HomeIntent.OnSwipe -> {
@@ -38,4 +40,11 @@ class HomeScreenViewModel(
                 updateState { it.copy(amount = (it.amount + delta).coerceAtLeast(DEFAULT_AMOUNT)) }
             }
         }
+    }
+
+    override fun onCleared() {
+        println("Test onCleared")
+        super.onCleared()
+
+    }
 }

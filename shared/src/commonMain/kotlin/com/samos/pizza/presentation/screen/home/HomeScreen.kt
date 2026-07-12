@@ -61,6 +61,7 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    println("Test state $state")
 
     HomeScreenContent(
         state = state,

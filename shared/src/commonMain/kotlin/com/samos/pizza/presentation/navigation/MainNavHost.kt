@@ -53,6 +53,9 @@ fun MainNavHost(
                         val handled = implRouter?.handleCustomBack(navController) ?: false
                         if (handled) return@collect
 
+                        if (navController.previousBackStackEntry == null)
+                            return@collect
+
                         val prevRouteStr = navController.previousBackStackEntry?.destination?.route
                         implRouter?.setLastProcessedRouteStr(prevRouteStr)
 
