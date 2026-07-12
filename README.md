@@ -22,10 +22,10 @@ The core focus of the application is delivering custom motion design experiences
   </tr>
   <tr>
     <td align="center">
-      <img src="screenshots/home.png" width="340" alt="Main Home Screen" />
+      <img src="screenshots/home.png" width="400" alt="Main Home Screen" />
     </td>
     <td align="center">
-      <img src="screenshots/zoom.png" width="340" alt="FullScreen Interactive Zoom" />
+      <img src="screenshots/zoom.png" width="400" alt="FullScreen Interactive Zoom" />
     </td>
   </tr>
 </table>
