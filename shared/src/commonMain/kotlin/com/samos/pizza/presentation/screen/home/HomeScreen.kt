@@ -55,7 +55,6 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    println("Test state $state")
 
     HomeScreenContent(
         state = state,
@@ -189,8 +188,8 @@ fun HomeScreenContent(
                             singlePrice = currentPizza.variants
                                 .find { it.size == state.currentSize }?.price ?: 0.00,
                             modifier = Modifier
-                                .navigationBarsPadding()
-                                .padding(16.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp, vertical = 16.dp)
                                 .graphicsLayer {
                                     val maxSlideDistancePx = 500f
                                     translationY = maxSlideDistancePx * animationProgress

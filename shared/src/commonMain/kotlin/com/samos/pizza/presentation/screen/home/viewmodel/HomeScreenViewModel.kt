@@ -23,28 +23,18 @@ class HomeScreenViewModel(
             }.launchIn(viewModelScope)
     }
 
-    override fun handleIntent(intent: HomeIntent) {
-        println("Test handleIntent $intent")
-
-        when (intent) {
-            HomeIntent.OnBackClick -> router.navigateBack()
-            is HomeIntent.OnSwipe -> {
-                updateState { it.copy(currentIndex = intent.index) }
-            }
-            is HomeIntent.OnSizeChanged -> {
-                updateState { it.copy(currentSize = intent.size) }
-            }
-            is HomeIntent.OnAmountChanged -> {
-                //updateState { it.copy(amount = if (intent.isIncremented) it.amount + 1 else if (it.amount > DEFAULT_AMOUNT) it.amount - 1 else DEFAULT_AMOUNT) }
-                val delta = if (intent.isIncremented) 1 else -1
-                updateState { it.copy(amount = (it.amount + delta).coerceAtLeast(DEFAULT_AMOUNT)) }
-            }
+    override fun handleIntent(intent: HomeIntent) = when (intent) {
+        HomeIntent.OnBackClick -> router.navigateBack()
+        is HomeIntent.OnSwipe -> {
+            updateState { it.copy(currentIndex = intent.index) }
         }
-    }
-
-    override fun onCleared() {
-        println("Test onCleared")
-        super.onCleared()
-
+        is HomeIntent.OnSizeChanged -> {
+            updateState { it.copy(currentSize = intent.size) }
+        }
+        is HomeIntent.OnAmountChanged -> {
+            //updateState { it.copy(amount = if (intent.isIncremented) it.amount + 1 else if (it.amount > DEFAULT_AMOUNT) it.amount - 1 else DEFAULT_AMOUNT) }
+            val delta = if (intent.isIncremented) 1 else -1
+            updateState { it.copy(amount = (it.amount + delta).coerceAtLeast(DEFAULT_AMOUNT)) }
+        }
     }
 }
