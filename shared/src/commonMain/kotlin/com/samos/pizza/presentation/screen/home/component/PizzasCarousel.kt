@@ -113,7 +113,7 @@ fun PizzasCarousel(
         val actualPizzaIndex = page % state.pizzas.size
         val pizzaItem = state.pizzas[actualPizzaIndex]
 
-        var pixelY by remember { mutableFloatStateOf(0f) }
+        var pixelCenterY by remember { mutableFloatStateOf(0f) }
 
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -138,10 +138,12 @@ fun PizzasCarousel(
                 alphaValue = computedAlpha,
                 modifier = Modifier
                     .onGloballyPositioned { coordinates ->
-                        pixelY = coordinates.positionInWindow().y
+                        val topLeftY = coordinates.positionInWindow().y
+                        val halfHeightPx = coordinates.size.height / 2f
+                        pixelCenterY = topLeftY + halfHeightPx
                     }
                     .noRippleClickable {
-                        onZoomClick(pixelY, computedScale, computedAlpha)
+                        onZoomClick(pixelCenterY, computedScale, computedAlpha)
                     }
             )
 

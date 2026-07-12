@@ -1,12 +1,8 @@
 package com.samos.pizza.presentation.screen.home
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -18,9 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,11 +27,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samos.pizza.presentation.base.TransparentSystemBarsEffect
 import com.samos.pizza.presentation.screen.home.component.BananaSizeSelector
+import com.samos.pizza.presentation.screen.home.component.DescriptionText
 import com.samos.pizza.presentation.screen.home.component.FullScreenZoom
 import com.samos.pizza.presentation.screen.home.component.HomeTopAppBar
 import com.samos.pizza.presentation.screen.home.component.PizzaOrderBottomBar
@@ -177,7 +171,8 @@ fun HomeScreenContent(
                             .align(Alignment.BottomCenter),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        AnimatedContent(
+                        DescriptionText(
+                            description = currentPizza.description,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(start = 32.dp, end = 32.dp, bottom = 8.dp)
@@ -186,27 +181,15 @@ fun HomeScreenContent(
                                     val delayedEasing = CubicBezierEasing(0.8f, 0.0f, 1.0f, 1.0f)
                                     alpha = delayedEasing.transform(1f - animationProgress)
                                 },
-                            targetState = currentPizza.description,
-                            transitionSpec = {
-                                fadeIn(animationSpec = tween(durationMillis = 200)) togetherWith
-                                        fadeOut(animationSpec = tween(durationMillis = 160))
-                            },
-                            label = "PizzaDescriptionTransition",
-                        ) { targetDescription ->
-                            Text(
-                                text = targetDescription,
-                                style = MaterialTheme.typography.bodyMedium,
-                                textAlign = TextAlign.Start
-                            )
-                        }
+                        )
 
                         PizzaOrderBottomBar(
                             amount = state.amount,
                             singlePrice = currentPizza.variants
                                 .find { it.size == state.currentSize }?.price ?: 0.00,
                             modifier = Modifier
-                                .navigationBarsPadding()
-                                .padding(16.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp, vertical = 16.dp)
                                 .graphicsLayer {
                                     val maxSlideDistancePx = 500f
                                     translationY = maxSlideDistancePx * animationProgress
@@ -235,5 +218,3 @@ fun HomeScreenContent(
         }
     }
 }
-
-

@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pizza.shared.generated.resources.Res
@@ -33,6 +33,8 @@ private const val COUNTER_BACKGROUND_HEX = 0xFFF3E3DA
 private const val ADD_BUTTON_BG_HEX = 0xFF19BFFF
 private const val COUNTER_RADIUS_DP = 32
 private const val SHADOW_ELEVATION_DP = 2
+private const val PRISE_SIZE_DEF = 24
+private const val PRISE_SIZE_SMALL = 20
 
 @Composable
 fun PizzaOrderBottomBar(
@@ -49,9 +51,7 @@ fun PizzaOrderBottomBar(
     val formattedPrice = "\$${formatKmpDecimal(totalPrice)}"
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 16.dp),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -113,9 +113,12 @@ fun PizzaOrderBottomBar(
         // 2. Aggregate Final Price Text Field Label Component
         Text(
             text = formattedPrice,
-            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.weight(1f),
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(horizontal = 8.dp),
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            fontSize = if (formattedPrice.length <= 9) PRISE_SIZE_DEF.sp else PRISE_SIZE_SMALL.sp,
+            style = MaterialTheme.typography.headlineSmall,
         )
 
         // 3. Primary Cart Dispatch Action Button Container
