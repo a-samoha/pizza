@@ -15,6 +15,20 @@ The core focus of the application is delivering custom motion design experiences
 |------------------|-----------------------------|
 | ![Home Screen](screenshots/home.png) | ![Zoom Screen](screenshots/zoom.png) |
 
+<table width="100%">
+  <tr>
+    <th width="50%" align="center">Main Home Screen</th>
+    <th width="50%" align="center">FullScreen Interactive Zoom</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="screenshots/home.png" width="340" alt="Main Home Screen" />
+    </td>
+    <td align="center">
+      <img src="screenshots/zoom.png" width="340" alt="FullScreen Interactive Zoom" />
+    </td>
+  </tr>
+</table>
 ---
 
 ## 🚀 Features
