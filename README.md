@@ -9,6 +9,14 @@ The core focus of the application is delivering custom motion design experiences
 
 ---
 
+## 🖼️ Screenshots (Preview)
+
+| Main Home Screen | FullScreen Interactive Zoom |
+|------------------|-----------------------------|
+| ![Home Screen](screenshots/home.png) | ![Zoom Screen](screenshots/zoom.png) |
+
+---
+
 ## 🚀 Features
 - **120 FPS Infinite Loop Carousel**: <br>A customized `HorizontalPager` layer implementing complex dynamic multi-axis scale shifts, <br>alpha rollbacks, and layering offsets directly mapped to real-time scrolling deltas.
 - **Dynamic Background Geometry**: <br>High-performance layout adjustments using smooth vector paths drawn manually on a native `Canvas` block that elegantly transitions upon screen entry.
@@ -90,14 +98,6 @@ iosApp/
     Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
     folder is the appropriate location.
 
-
----
-
-## 🖼️ Screenshots (Preview)
-
-| Main Home Screen | FullScreen Interactive Zoom |
-|------------------|-----------------------------|
-| ![Home Screen](screenshots/home.png) | ![Zoom Screen](screenshots/zoom.png) |
 
 ---
 
