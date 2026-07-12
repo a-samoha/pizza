@@ -27,7 +27,8 @@ import pizza.shared.generated.resources.Res
 import pizza.shared.generated.resources.img_banana_for_scale
 
 private const val BORDER_STROKE_WIDTH_PX = 2
-private const val BUTTON_SIZE_DP = 48
+private const val BUTTON_SIZE_DEF = 48
+private const val BUTTON_SIZE_SELECTED = 52
 private const val BUTTON_ELEVATION_DP = 3
 
 
@@ -54,7 +55,7 @@ fun BananaSizeSelector(
 
         Row(
             modifier = Modifier,
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(56.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
@@ -62,43 +63,44 @@ fun BananaSizeSelector(
             PizzaSize.entries.forEachIndexed { index, label ->
                 val isSelected = size == label
 
-                Surface(
+                Box(
                     modifier = Modifier
-                        .then(
-                            if (index == 1) {
-                                Modifier.padding(
-                                    start = if (index == 1) 32.dp else 0.dp,
-                                    top = if (index == 1) 48.dp else 0.dp,
-                                    end = if (index == 1) 32.dp else 0.dp,
-                                )
-                            } else Modifier
-                        )
-                        .size(if (isSelected) 52.dp else BUTTON_SIZE_DP.dp)
-                        .then(
-                            if (isSelected) {
-                                Modifier.border(
-                                    width = BORDER_STROKE_WIDTH_PX.dp,
-                                    color = Color.White,
-                                    shape = CircleShape
-                                )
-                            } else Modifier
-                        )
-                        .noRippleClickable { onSizeChanged(label) },
-                    shape = RoundedCornerShape(BUTTON_SIZE_DP.dp),
-                    color = if (isSelected) Color.Black else MaterialTheme.colorScheme.background,
-                    shadowElevation = if (isSelected) 0.dp else BUTTON_ELEVATION_DP.dp
+                        .padding(top = if (index == 1) BUTTON_SIZE_DEF.dp else 0.dp,)
+                        .size(BUTTON_SIZE_SELECTED.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
+                    Surface(
+                        modifier = Modifier
+
+                            .size(if (isSelected) BUTTON_SIZE_SELECTED.dp else BUTTON_SIZE_DEF.dp)
+                            .then(
+                                if (isSelected) {
+                                    Modifier
+                                        .border(
+                                            width = BORDER_STROKE_WIDTH_PX.dp,
+                                            color = Color.White,
+                                            shape = CircleShape
+                                        )
+                                } else Modifier
+                            )
+                            .noRippleClickable { onSizeChanged(label) },
+                        shape = RoundedCornerShape(BUTTON_SIZE_DEF.dp),
+                        color = if (isSelected) Color.Black else MaterialTheme.colorScheme.background,
+                        shadowElevation = if (isSelected) 0.dp else BUTTON_ELEVATION_DP.dp
                     ) {
-                        Text(
-                            text = label.name,
-                            color = if (isSelected) Color.White else MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall,
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(
+                                text = label.name,
+                                color = if (isSelected) Color.White else MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.titleSmall,
+                            )
+                        }
                     }
                 }
+
             }
         }
     }
