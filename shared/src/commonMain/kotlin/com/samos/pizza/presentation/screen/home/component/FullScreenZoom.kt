@@ -53,8 +53,17 @@ fun FullScreenZoom(
         label = "PizzaFlightTransition"
     )
 
-    LaunchedEffect(flightProgress, isReturning) {
-        if (isReturning && flightProgress == 0f) {
+    val isFullyReturned = remember(flightProgress, isReturning) {
+        isReturning && flightProgress == 0f
+    }
+    val unZoomedAlpha by animateFloatAsState(
+        targetValue = if (isFullyReturned) 0f else 1f,
+        animationSpec = tween(durationMillis = 100),
+        label = "UnZoomedAlphaFadeOut"
+    )
+
+    LaunchedEffect( isReturning, unZoomedAlpha) {
+        if (isFullyReturned && unZoomedAlpha == 0f) {
             onUnZoom()
         }
     }
@@ -98,14 +107,16 @@ fun FullScreenZoom(
         contentAlignment = Alignment.Center
     ) {
         val initialStartOffset = remember(startZoomPixelY, screenCenterY) {
-            if (screenCenterY == 0f) 0f else startZoomPixelY + 20f - (screenCenterY - (startZoomPixelY / 2f))
+            if (screenCenterY == 0f) 0f else startZoomPixelY - screenCenterY
         }
 
         val targetFullScreenScale = 4.8f
 
-        val finalAlpha =
+        val finalAlpha = remember(screenCenterY, flightProgress, startZoomAlpha, unZoomedAlpha, isReturning) {
             if (screenCenterY == 0f) 0f
-            else startZoomAlpha
+            else if (flightProgress == 0f && !isReturning) startZoomAlpha
+            else 1f * unZoomedAlpha
+        }
 
         val currentGestureScale = if (isReturning) 1f else gestureScale
 
