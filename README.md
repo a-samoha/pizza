@@ -12,10 +12,6 @@ customization.
 The core focus of the application is delivering custom motion design experiences running at a
 flawless **120 FPS**.
 
----
-
-## 🖼️ Preview
-
 <table width="100%">
   <tr>
     <th width="50%" align="center">Main Home Screen</th>
