@@ -102,6 +102,7 @@ cross-platform source tree structure:
 
 ```
 androidApp/
+iosApp/
 shared/
 └── commonMain/
     ├── data/
@@ -114,11 +115,10 @@ shared/
     │   ├── repository/
     │   └── usecase/
     └── presentation/ (ui)
-    │   ├── base/
-    │   ├── navigation/
-    │   ├── screen/
-    │   └── theme/
-iosApp/
+        ├── base/
+        ├── navigation/
+        ├── screen/
+        └── theme/
 ```
 
 * [/androidApp](./androidApp) contains an Android application. Even if you're sharing your UI with
