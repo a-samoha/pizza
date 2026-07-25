@@ -12,6 +12,9 @@ customization.
 The core focus of the application is delivering custom motion design experiences running at a
 flawless **120 FPS**.
 
+## 🎨 UI/UX Design
+[![Figma](https://shields.io)](https://www.figma.com/design/vV9GJZrUfNi0C3pGt94d3P/TEST--Pizza-Mobile-App?node-id=25-448&p=f&t=IHVJDLyXiUmlFFif-0)
+
 <table width="100%">
   <tr>
     <th width="50%" align="center">Main Home Screen</th>
